@@ -21,19 +21,19 @@ ZzFX Features
 /*
 
   ZzFX MIT License
-  
+
   Copyright (c) 2019 - Frank Force
-  
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
   copies of the Software, and to permit persons to whom the Software is
   furnished to do so, subject to the following conditions:
-  
+
   The above copyright notice and this permission notice shall be included in all
   copies or substantial portions of the Software.
-  
+
   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -41,7 +41,7 @@ ZzFX Features
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   SOFTWARE.
-  
+
 */
 
 /**
@@ -55,9 +55,14 @@ export const zzfxV = 0.3;
 export const zzfxR = 44100;
 
 /**
- * Create shared audio context.
- */
-export const zzfxX = new AudioContext();
+  * Create shared audio context.
+  * @const {!AudioContext}
+  */
+export let zzfxX: AudioContext | null = null;
+
+export function initAudioContext() {
+	zzfxX = new AudioContext()
+}
 
 /**
  * Play a sound from zzfx paramerters.
@@ -70,12 +75,12 @@ export function zzfx(...parameters: (number | undefined)[]): AudioBufferSourceNo
  * Play an array of samples.
  */
 export function zzfxP(...samples: number[][]): AudioBufferSourceNode {
-  const buffer = zzfxX.createBuffer(samples.length, samples[0].length, zzfxR),
-    source = zzfxX.createBufferSource();
+  const buffer = zzfxX!.createBuffer(samples.length, samples[0].length, zzfxR),
+    source = zzfxX!.createBufferSource();
 
   samples.map((d, i) => buffer.getChannelData(i).set(d));
   source.buffer = buffer;
-  source.connect((zzfxX as AudioContext).destination);
+  source.connect((zzfxX! as AudioContext).destination);
   source.start();
   return source;
 }
@@ -110,7 +115,7 @@ export function zzfxG(
   const sampleRate = zzfxR;
   const sign = (v: number): number => (v > 0 ? 1 : -1);
   const startSlide = (slide *= (500 * PI2) / sampleRate / sampleRate);
-  const b = [];
+  const b: any[] = [];
 
   let startFrequency = (frequency *= ((1 + randomness * 2 * Math.random() - randomness) * PI2) / sampleRate),
     t = 0,
