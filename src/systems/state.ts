@@ -1,4 +1,4 @@
-const STATE_KEY = 'js13kgames2023-entry';
+const STATE_KEY = 'js13kgames-template';
 
 export type Path = 'sound' | 'screen';
 

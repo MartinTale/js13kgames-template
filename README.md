@@ -1,4 +1,4 @@
-# js13kgames2023-entry
+# js13kgames-template
 WIP
 
 ## Usage
