@@ -1,6 +1,6 @@
-const STATE_KEY = 'js13kgames-template';
+const STATE_KEY = "js13kgames-template";
 
-export type Path = 'sound' | 'screen';
+export type Path = "sound" | "screen";
 
 export type State = {
 	lastProcessedAt: number;
@@ -20,12 +20,12 @@ let stateLoaded = false;
 let autoSaveInterval: number;
 
 export function initState() {
-    loadState();
+	loadState();
 
 	autoSaveInterval = setInterval(saveState, 15000);
 	globalThis.onbeforeunload = () => {
-        saveState();
-    };
+		saveState();
+	};
 }
 
 export function resetState() {
@@ -40,7 +40,7 @@ export function resetState() {
 
 function loadState() {
 	const encodedState = localStorage.getItem(STATE_KEY);
-	const decodedState = encodedState ? atob(encodedState) : '{}';
+	const decodedState = encodedState ? atob(encodedState) : "{}";
 	const jsonState = JSON.parse(decodedState) as State | undefined;
 
 	if (jsonState) {
@@ -49,15 +49,15 @@ function loadState() {
 		state = { ...emptyState };
 	}
 
-    stateLoaded = true;
+	stateLoaded = true;
 }
 
 function saveState() {
-    if (!stateLoaded) {
-        return;
+	if (!stateLoaded) {
+		return;
 	}
 
-    const jsonState = JSON.stringify(state);
-    const encodedState = btoa(jsonState);
+	const jsonState = JSON.stringify(state);
+	const encodedState = btoa(jsonState);
 	localStorage.setItem(STATE_KEY, encodedState);
 }

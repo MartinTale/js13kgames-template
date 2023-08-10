@@ -1,4 +1,4 @@
-const tiers = ['', 'K', 'M', 'B', 'T', 'Q'];
+const tiers = ["", "K", "M", "B", "T", "Q"];
 
 export function abbreviateNumber(
 	value: number,
@@ -7,7 +7,7 @@ export function abbreviateNumber(
 	roundValue: false | 0 | 1 | -1 = 0,
 ): string {
 	if (value < 0) {
-		return '-' + abbreviateNumber(-value, minExp);
+		return "-" + abbreviateNumber(-value, minExp);
 	}
 
 	if (roundValue === 0) {
@@ -34,7 +34,7 @@ export function abbreviateNumber(
 
 	if (suffix) {
 		expValue *= Math.pow(10, exp % 3);
-		formattedExpValue = expValue.toFixed(2 - exp % 3);
+		formattedExpValue = expValue.toFixed(2 - (exp % 3));
 	}
 
 	if (removeZeros) {
@@ -42,14 +42,14 @@ export function abbreviateNumber(
 	}
 
 	if (!suffix) {
-		return formattedExpValue + 'e' + exp;
+		return formattedExpValue + "e" + exp;
 	}
 
 	return formattedExpValue + suffix;
 }
 
 export function removeTrailingZeros(value: string): string {
-	return value.replace(/0+$/, '').replace(/\.$/, '');
+	return value.replace(/0+$/, "").replace(/\.$/, "");
 }
 
 export function random(min: number, max: number): number {

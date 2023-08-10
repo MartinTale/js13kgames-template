@@ -1,5 +1,5 @@
-import './progress-bar.css'
-import { el, mount } from '../../helpers/dom';
+import "./progress-bar.css";
+import { el, mount } from "../../helpers/dom";
 
 export class ProgressBar {
 	container: HTMLElement;
@@ -11,8 +11,8 @@ export class ProgressBar {
 		public max: number,
 		public value: number,
 	) {
-		this.progress = el('div.progress');
-		this.container = el('div.progress-bar', this.progress);
+		this.progress = el("div.progress");
+		this.container = el("div.progress-bar", this.progress);
 
 		this.setValue(value);
 
@@ -20,7 +20,7 @@ export class ProgressBar {
 	}
 
 	getProgress() {
-		return Math.min(100, Math.max(0, (this.value - this.min) / (this.max - this.min) * 100));
+		return Math.min(100, Math.max(0, ((this.value - this.min) / (this.max - this.min)) * 100));
 	}
 
 	setValue(value: number) {

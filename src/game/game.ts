@@ -1,10 +1,10 @@
-import { tweens } from '../systems/animation';
-import { DataKey, getters, setters } from '../systems/bind';
-import { state } from '../systems/state';
-import './game.css';
+import { tweens } from "../systems/animation";
+import { DataKey, getters, setters } from "../systems/bind";
+import { state } from "../systems/state";
+import "./game.css";
 
 export function initGame() {
-	console.log('init game');
+	console.log("init game");
 }
 
 export function startGameLoop() {

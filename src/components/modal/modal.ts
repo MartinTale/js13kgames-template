@@ -1,6 +1,6 @@
-import './modal.css';
-import { Button, createButton } from '../button/button';
-import { el, mount } from '../../helpers/dom';
+import "./modal.css";
+import { Button, createButton } from "../button/button";
+import { el, mount } from "../../helpers/dom";
 
 let modalElement: HTMLElement;
 
@@ -10,11 +10,11 @@ export function openModal(
 	content: string | HTMLElement | HTMLElement[],
 	buttons: Button[] = [],
 	onCloseCallback: (() => void) | null,
-	className = 'none',
+	className = "none",
 ) {
 	closeModal();
 
-	const modalOverlay = el('div.modal-overlay');
+	const modalOverlay = el("div.modal-overlay");
 	modalOverlay.onclick = () => {
 		closeModal();
 
@@ -27,44 +27,42 @@ export function openModal(
 	for (let i = 0; i < buttons.length; i += 1) {
 		const button = buttons[i];
 
-		buttonElements.push(createButton(
-			button.content,
-			(e) => {
-				if (button.onClickCallback != null) {
-					button.onClickCallback(e);
-				}
+		buttonElements.push(
+			createButton(
+				button.content,
+				(e) => {
+					if (button.onClickCallback != null) {
+						button.onClickCallback(e);
+					}
 
-				closeModal();
+					closeModal();
 
-				if (onCloseCallback != null) {
-					onCloseCallback();
-				}
-			},
-			button.type,
-		));
+					if (onCloseCallback != null) {
+						onCloseCallback();
+					}
+				},
+				button.type,
+			),
+		);
 	}
 
-	if (typeof header === 'string') {
-		header = el('h1', header);
+	if (typeof header === "string") {
+		header = el("h1", header);
 	}
 
-	if (typeof content === 'string') {
-		content = el('p', content);
+	if (typeof content === "string") {
+		content = el("p", content);
 	}
 
-	modalElement = el('div.modal.' + className, [
+	modalElement = el("div.modal." + className, [
 		modalOverlay,
-		el('div.modal-container', [
-			el('header', header),
-			el('main', content),
-			el('footer', buttonElements),
-		]),
+		el("div.modal-container", [el("header", header), el("main", content), el("footer", buttonElements)]),
 	]);
 
 	mount(container, modalElement);
 
 	requestAnimationFrame(() => {
-		modalElement.classList.add('active');
+		modalElement.classList.add("active");
 	});
 
 	return modalElement;

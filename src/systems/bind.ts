@@ -1,8 +1,8 @@
-import { state } from './state';
+import { state } from "./state";
 
 export const DataKey = {
 	level: 0,
-}
+};
 
 export const setters: ((data: any) => void)[] = [];
 setters[DataKey.level] = (level: number) => {
