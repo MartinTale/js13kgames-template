@@ -1,6 +1,6 @@
 import "./button.css";
 import { el } from "../../helpers/dom";
-import { playSound } from "../../systems/music";
+import { playSound, sounds } from "../../systems/music";
 
 export type ButtonType = "normal" | "primary" | "danger" | "disabled";
 
@@ -19,7 +19,7 @@ export function createButton(
 
 	const button = el("button." + type, buttonContent) as HTMLButtonElement;
 	button.onclick = (e) => {
-		playSound("tap");
+		playSound(sounds.tap);
 		onClickCallback(e);
 	};
 

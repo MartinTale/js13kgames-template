@@ -26,9 +26,9 @@ export const music = zzfxM(
 	50,
 );
 
-export function playSound(sound: keyof typeof sounds) {
+export function playSound(sound: (number | undefined)[]) {
 	if (state.sound && zzfxX != null) {
-		zzfx(...sounds[sound]);
+		zzfx(...sound);
 	}
 }
 

@@ -1,7 +1,7 @@
 import "./edge-button.css";
 import { Path, state } from "../../systems/state";
 import { externalLinkEl, el, mount, svgEl } from "../../helpers/dom";
-import { playSound } from "../../systems/music";
+import { playSound, sounds } from "../../systems/music";
 import { zzfxX } from "../../third-party-libraries/zzfx";
 
 export class EdgeButton {
@@ -24,14 +24,14 @@ export class EdgeButton {
 			// screens.openScreen('game');
 			// this.renderState(screens.screen === 'levels');
 			// this.root.onclick = () => {
-			// 	playSound('tap');
+			// 	playSound(sounds.tap);
 			// 	screens.openScreen(screens.screen === 'game' ? 'levels' : 'game');
 			// 	this.renderState(screens.screen === 'levels');
 			// };
 		} else {
 			this.renderState(state[path] as boolean);
 			this.root.onclick = () => {
-				playSound("tap");
+				playSound(sounds.tap);
 				state[path] = !state[path];
 				this.renderState(state[path] as boolean);
 			};
@@ -66,7 +66,7 @@ export class EdgeLinkButton {
 		if (typeof link === "function") {
 			this.root = el("div", iconElement);
 			this.root.onclick = () => {
-				playSound("tap");
+				playSound(sounds.tap);
 				link();
 			};
 		} else {
