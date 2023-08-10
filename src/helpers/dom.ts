@@ -1,5 +1,5 @@
 export function el(tagAndClasses: string, content: null | string | HTMLElement | HTMLElement[] = null) {
-	const parts = tagAndClasses.split('.');
+	const parts = tagAndClasses.split(".");
 	const tag = parts.shift();
 
 	const element = document.createElement(tag!);
@@ -8,7 +8,7 @@ export function el(tagAndClasses: string, content: null | string | HTMLElement |
 		element.classList.add(part);
 	});
 
-	if (typeof content === 'string') {
+	if (typeof content === "string") {
 		setTextContent(element, content);
 	} else if (Array.isArray(content)) {
 		content.forEach((item) => mount(element, item));
@@ -20,26 +20,24 @@ export function el(tagAndClasses: string, content: null | string | HTMLElement |
 }
 
 export function mount(container: HTMLElement, element: HTMLElement) {
-	container.insertAdjacentElement('beforeend', element);
+	console.log(container, element);
+	container.insertAdjacentElement("beforeend", element);
 }
 
 export function svgEl(svgString: string, color?: string): HTMLElement {
 	if (color) {
-		svgString = svgString.replace('[fill]', `fill="${color}"`);
+		svgString = svgString.replace("[fill]", `fill="${color}"`);
 	}
 
 	const parser = new DOMParser();
-	return parser.parseFromString(svgString, 'image/svg+xml').documentElement;
+	return parser.parseFromString(svgString, "image/svg+xml").documentElement;
 }
 
-export function externalLinkEl(
-	content: string | HTMLElement | HTMLElement[],
-	link: string,
-) {
-	const linkElement = el('a', content) as HTMLAnchorElement;
+export function externalLinkEl(content: string | HTMLElement | HTMLElement[], link: string) {
+	const linkElement = el("a", content) as HTMLAnchorElement;
 
 	linkElement.href = link;
-	linkElement.target = '_blank';
+	linkElement.target = "_blank";
 
 	return linkElement;
 }
@@ -55,7 +53,7 @@ export function getTransforms(element: HTMLElement) {
 	return {
 		x: matrix.m41,
 		y: matrix.m42,
-		scale: Math.sqrt(matrix.a*matrix.a + matrix.b*matrix.b),
+		scale: Math.sqrt(matrix.a * matrix.a + matrix.b * matrix.b),
 		rotate: Math.round(Math.atan2(matrix.b, matrix.a) * (180 / Math.PI)),
 		opacity: parseFloat(style.opacity),
 	};

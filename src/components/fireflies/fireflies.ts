@@ -1,6 +1,6 @@
-import './fireflies.css';
-import { el, mount } from '../../helpers/dom';
-import { bodyElement } from '../..';
+import "./fireflies.css";
+import { el, mount } from "../../helpers/dom";
+import { bodyElement } from "../..";
 
 let fireflyColor: string;
 
@@ -29,7 +29,7 @@ function loop(c: any, f: any, w: any, h: any, firefly: any) {
 }
 
 export function initFireflies() {
-	const canvas: HTMLCanvasElement = el('canvas.fireflies') as HTMLCanvasElement;
+	const canvas: HTMLCanvasElement = el("canvas.fireflies") as HTMLCanvasElement;
 	mount(bodyElement, canvas);
 
 	let c = canvas.getContext("2d"),
@@ -48,12 +48,12 @@ export function initFireflies() {
 				this.y = Math.random() * h;
 				this.s = Math.random() * 2;
 				this.ang = Math.random() * 2 * Math.PI;
-				this.v = this.s * this.s / 4;
+				this.v = (this.s * this.s) / 4;
 			}
 			move() {
 				this.x += this.v * Math.cos(this.ang);
 				this.y += this.v * Math.sin(this.ang);
-				this.ang += Math.random() * 20 * Math.PI / 180 - 10 * Math.PI / 180;
+				this.ang += (Math.random() * 20 * Math.PI) / 180 - (10 * Math.PI) / 180;
 			}
 			show() {
 				if (c) {
@@ -68,8 +68,7 @@ export function initFireflies() {
 		let f: firefly[] = [];
 
 		window.addEventListener("resize", function () {
-			(w = canvas.width = window.innerWidth),
-				(h = canvas.height = window.innerHeight);
+			(w = canvas.width = window.innerWidth), (h = canvas.height = window.innerHeight);
 			loop(c, f, w, h, firefly);
 		});
 
