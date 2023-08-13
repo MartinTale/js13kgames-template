@@ -8,7 +8,7 @@ export const setters: ((data: any) => void)[] = [];
 setters[DataKey.level] = (level: number) => {
 	state.level = level;
 
-	bindings[DataKey.level].forEach((callback) => {
+	bindings[DataKey.level]?.forEach((callback) => {
 		callback(level);
 	});
 };
