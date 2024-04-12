@@ -1,3 +1,4 @@
+import { rng } from "../helpers/numbers";
 import { Signal, createSignal } from "./signals";
 
 const STATE_KEY = "js13kgames-template";
@@ -5,12 +6,15 @@ const STATE_KEY = "js13kgames-template";
 export type Path = "sound" | "screen";
 
 export type State = {
+	seed: Signal<number>;
 	lastProcessedAt: Signal<number>;
 	sound: Signal<boolean | null>;
 	level: Signal<number>;
 };
 
 export const emptyState: State = {
+	seed: createSignal(12),
+	// seed: createSignal(Date.now()),
 	lastProcessedAt: createSignal(Date.now()),
 	sound: createSignal(null),
 	level: createSignal(0),
@@ -50,6 +54,8 @@ function loadState() {
 		return acc;
 	}, {} as State);
 
+	rng.setSeed(state.seed.value);
+
 	stateLoaded = true;
 }
 
@@ -57,6 +63,8 @@ function saveState() {
 	if (!stateLoaded) {
 		return;
 	}
+
+	state.seed.value = rng.getSeed();
 
 	const jsonState = Object.entries(state).reduce(
 		(acc, [key, signal]) => {

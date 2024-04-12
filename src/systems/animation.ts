@@ -1,6 +1,6 @@
 import { gameContainer } from "..";
 import { getTransforms, mount } from "../helpers/dom";
-import { random } from "../helpers/numbers";
+import { mathRandomInteger } from "../helpers/numbers";
 
 type CSSProperties = {
 	x?: number;
@@ -327,7 +327,7 @@ export function explode(
 	for (let i = 0; i < amount; i++) {
 		let particle: HTMLElement;
 		if (Array.isArray(element)) {
-			particle = element[random(0, element.length - 1)].cloneNode(true) as HTMLElement;
+			particle = element[mathRandomInteger(0, element.length - 1)].cloneNode(true) as HTMLElement;
 		} else {
 			particle = element.cloneNode(true) as HTMLElement;
 		}

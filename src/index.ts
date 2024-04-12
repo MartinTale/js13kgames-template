@@ -4,7 +4,7 @@ import { initMusic } from "./systems/music";
 import { mount, setTextContent } from "./helpers/dom";
 import { initState, resetState, state } from "./systems/state";
 import { SVGs } from "./systems/svgs";
-import { abbreviateNumber, random } from "./helpers/numbers";
+import { abbreviateNumber, mathRandomInteger } from "./helpers/numbers";
 import { initFireflies } from "./components/fireflies/fireflies";
 import { EdgeLinkButton, EdgeButton } from "./components/edge-button/edge-button";
 import { initGame, startGameLoop } from "./game/game";
@@ -85,11 +85,11 @@ window.addEventListener("DOMContentLoaded", () => {
 			state.level.value += 1;
 			tween(testButton, {
 				to: {
-					x: random(-200, 200),
-					y: random(-100, 300),
-					rotate: random(-180, 180),
-					scale: random(5, 20) / 10,
-					opacity: random(20, 100) / 100,
+					x: mathRandomInteger(-200, 200),
+					y: mathRandomInteger(-100, 300),
+					rotate: mathRandomInteger(-180, 180),
+					scale: mathRandomInteger(5, 20) / 10,
+					opacity: mathRandomInteger(20, 100) / 100,
 				},
 				duration: 1000,
 				easing: easings.swingTo,

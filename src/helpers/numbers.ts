@@ -54,12 +54,47 @@ export function removeTrailingZeros(value: string): string {
 	return value.replace(/0+$/, "").replace(/\.$/, "");
 }
 
-export function random(min: number, max: number): number {
-	return Math.floor(Math.random() * (max - min + 1) + min);
+// #region -- Pseudo Random Number Generator
+
+// A deterministic random number generator (Mulberry32)
+export type RNG = {
+	seed: number;
+	setSeed: (seed: number) => void;
+	getSeed: () => number;
+	random: () => number;
+};
+
+export const rng: RNG = {
+	seed: 0,
+
+	// Set the random seed
+	setSeed: (seed) => {
+		rng.seed = seed;
+	},
+
+	// Get the random seed
+	getSeed: () => {
+		return rng.seed;
+	},
+
+	// Get a new random number (0-1)
+	random: () => {
+		rng.seed += 0x6d2b79f5;
+		let t = rng.seed;
+		t = Math.imul(t ^ (t >>> 15), t | 1);
+		t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+		return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+	},
+};
+
+// #endregion
+
+export function randomInteger(min: number, max: number): number {
+	return Math.floor(rng.random() * (max - min + 1) + min);
 }
 
-export function randomNegativeOrPositiveOne() {
-	return Math.random() < 0.5 ? -1 : 1;
+export function mathRandomInteger(min: number, max: number): number {
+	return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 // https://www.calculators.org/math/html-math.php
