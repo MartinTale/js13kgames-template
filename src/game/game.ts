@@ -1,5 +1,4 @@
 import { tweens } from "../systems/animation";
-import { DataKey, getters, setters } from "../systems/bind";
 import { state } from "../systems/state";
 import "./game.css";
 
@@ -13,13 +12,13 @@ export function startGameLoop() {
 
 function processGameState() {
 	const newProcessingTime = Date.now();
-	const secondsPassed = (newProcessingTime - state.lastProcessedAt) / 1000;
+	const secondsPassed = (newProcessingTime - state.lastProcessedAt.value) / 1000;
 
 	Object.values(tweens).forEach((updateTween) => updateTween(newProcessingTime));
 	// console.log(secondsPassed);
 
-	setters[DataKey.level](getters[DataKey.level]() + secondsPassed);
+	state.level.value += secondsPassed;
 
-	state.lastProcessedAt = newProcessingTime;
+	state.lastProcessedAt.value = newProcessingTime;
 	requestAnimationFrame(processGameState);
 }

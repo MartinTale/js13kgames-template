@@ -28,12 +28,14 @@ export class EdgeButton {
 			// 	screens.openScreen(screens.screen === 'game' ? 'levels' : 'game');
 			// 	this.renderState(screens.screen === 'levels');
 			// };
-		} else {
-			this.renderState(state[path] as boolean);
+		}
+
+		if (path === "sound") {
+			this.renderState(state.sound.value as boolean);
 			this.root.onclick = () => {
 				playSound(sounds.tap);
-				state[path] = !state[path];
-				this.renderState(state[path] as boolean);
+				state.sound.value = !state.sound.value;
+				this.renderState(state.sound.value as boolean);
 			};
 		}
 	}

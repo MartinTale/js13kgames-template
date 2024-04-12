@@ -1,19 +1,19 @@
 import "./reset.css";
 import "./defaults.css";
 import { initMusic } from "./systems/music";
-import { el, mount, setTextContent } from "./helpers/dom";
-import { initState, resetState } from "./systems/state";
+import { mount, setTextContent } from "./helpers/dom";
+import { initState, resetState, state } from "./systems/state";
 import { SVGs } from "./systems/svgs";
 import { abbreviateNumber, random } from "./helpers/numbers";
 import { initFireflies } from "./components/fireflies/fireflies";
 import { EdgeLinkButton, EdgeButton } from "./components/edge-button/edge-button";
 import { initGame, startGameLoop } from "./game/game";
 import { createButton } from "./components/button/button";
-import { DataKey, addBinding, getters, setters } from "./systems/bind";
 import { easings, tween } from "./systems/animation";
 import { ProgressBar } from "./components/progress-bar/progress-bar";
 import { colors, setGameColor } from "./helpers/colors";
 import { closeModal, openModal } from "./components/modal/modal";
+import { createScaleableContainer } from "./components/scaleable-container/scaleable-container";
 
 export let bodyElement: HTMLElement;
 export let gameContainer: HTMLElement;
@@ -27,7 +27,7 @@ window.addEventListener("DOMContentLoaded", () => {
 	setGameColor(colors[0]);
 	initFireflies();
 
-	gameContainer = el("div.game");
+	gameContainer = createScaleableContainer(bodyElement, 360, 780, "bottom", "game");
 	mount(bodyElement, gameContainer);
 
 	initMusic();
@@ -82,7 +82,7 @@ window.addEventListener("DOMContentLoaded", () => {
 	const testButton = createButton(
 		"",
 		() => {
-			setters[DataKey.level](getters[DataKey.level]() + 1);
+			state.level.value += 1;
 			tween(testButton, {
 				to: {
 					x: random(-200, 200),
@@ -103,7 +103,7 @@ window.addEventListener("DOMContentLoaded", () => {
 	const testButton2 = createButton(
 		"",
 		() => {
-			setters[DataKey.level](getters[DataKey.level]() + 1);
+			state.level.value += 1;
 		},
 		"primary",
 	);
@@ -116,13 +116,27 @@ window.addEventListener("DOMContentLoaded", () => {
 		bar.setValue(bar.value + 10);
 	};
 
-	addBinding(DataKey.level, (level: number) => {
+	state.level.subscribe((level) => {
 		setTextContent(testButton, `Test ${abbreviateNumber(level)}`);
 	});
-	addBinding(DataKey.level, (level: number) => {
+
+	state.level.subscribe((level) => {
 		setTextContent(testButton2, `Test ${abbreviateNumber(level * 80)}`);
 	});
+
+	setRealViewportValues();
 
 	initGame();
 	startGameLoop();
 });
+
+function setRealViewportValues() {
+	// First we get the viewport height and we multiple it by 1% to get a value for a vh unit
+	let vw = window.innerWidth * 0.01;
+	let vh = window.innerHeight * 0.01;
+	// Then we set the value in the --vh custom property to the root of the document
+	document.documentElement.style.setProperty("--vw", `${vw}px`);
+	document.documentElement.style.setProperty("--vh", `${vh}px`);
+}
+
+window.addEventListener("resize", setRealViewportValues);

@@ -1,17 +1,19 @@
+import { Signal, createSignal } from "./signals";
+
 const STATE_KEY = "js13kgames-template";
 
 export type Path = "sound" | "screen";
 
 export type State = {
-	lastProcessedAt: number;
-	sound: boolean | null;
-	level: number;
+	lastProcessedAt: Signal<number>;
+	sound: Signal<boolean | null>;
+	level: Signal<number>;
 };
 
 export const emptyState: State = {
-	lastProcessedAt: Date.now(),
-	sound: null,
-	level: 0,
+	lastProcessedAt: createSignal(Date.now()),
+	sound: createSignal(null),
+	level: createSignal(0),
 };
 
 export let state: State;
@@ -43,11 +45,10 @@ function loadState() {
 	const decodedState = encodedState ? atob(encodedState) : "{}";
 	const jsonState = JSON.parse(decodedState) as State | undefined;
 
-	if (jsonState) {
-		state = Object.assign({ ...emptyState }, jsonState);
-	} else {
-		state = { ...emptyState };
-	}
+	state = Object.entries(emptyState).reduce((acc, [key, signal]) => {
+		acc[key] = jsonState?.[key] !== undefined ? createSignal(jsonState[key]) : signal;
+		return acc;
+	}, {} as State);
 
 	stateLoaded = true;
 }
@@ -57,7 +58,14 @@ function saveState() {
 		return;
 	}
 
-	const jsonState = JSON.stringify(state);
-	const encodedState = btoa(jsonState);
+	const jsonState = Object.entries(state).reduce(
+		(acc, [key, signal]) => {
+			acc[key] = signal.value;
+			return acc;
+		},
+		{} as Record<string, any>,
+	);
+
+	const encodedState = btoa(JSON.stringify(jsonState));
 	localStorage.setItem(STATE_KEY, encodedState);
 }
